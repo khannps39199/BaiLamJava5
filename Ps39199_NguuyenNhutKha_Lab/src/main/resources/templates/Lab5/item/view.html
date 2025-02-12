@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Danh Sách Sản Phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Danh Sách Sản Phẩm</h3>
+	<a th:href="@{|/cart/view|}" class="btn btn-primary w-100">
+	                            <i class="bi bi-cart-plus"></i> xem giỏ hàng
+	                        </a>
+    <div class="row">
+        <!-- Lặp qua từng sản phẩm -->
+        <th:block th:each="item : ${items.values}">
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.name}">Tên Sản Phẩm</h5>
+                        <p class="card-text text-success fw-bold" th:text="${item.price} + ' VNĐ'">Giá: 100.000 VNĐ</p>
+                        <a th:href="@{/cart/add(id=${item.id})}" class="btn btn-primary w-100">
+                            <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<!-- Bootstrap JS (nếu cần sử dụng chức năng động của Bootstrap) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

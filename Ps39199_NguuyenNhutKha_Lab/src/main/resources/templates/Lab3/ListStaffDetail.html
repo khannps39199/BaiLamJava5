@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${title ?: 'Default Title'}">Title</title>
+    </head>
+    <body>
+        <div th:each="staff,st:${listStaff}">
+            <img th:src="@{|/photos/${staff.getPhoto()}|}" alt="Photo of staff member" style="width: 50px;">
+			 <b th:text="${st.count ?: 'N/A'}"></b>
+			 <b th:text="${staff.id ?: 'N/A'}"></b>
+            <b th:text="${staff.getFullname() != null ? #strings.capitalizeWords(staff.getFullname()) : 'N/A'}"></b>
+            $<b th:text="${staff.getSalary() != null ? #numbers.formatDecimal(staff.getSalary(), 0, 'COMMA', 2, 'POINT') : '0.00'}"></b>
+			<a th:href="@{/showdetail/{detail}(detail=${staff.id})}">Edit</a><hr>
+			
+        </div>
+		<table border="1" style="width:100%">
+			<thead>
+				<tr>
+					<th rowspan="2">HỌ VÀ TÊN</th>
+					<th colspan="6">CÁC THUỘC TÍNH TRẠNG THÁI</th>
+				</tr>
+				<tr>
+					<th>Index</th>
+					<th>Count</th>
+					<th>First</th>
+					<th>Last</th>
+					<th>Odd</th>
+					<th>Even</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="staff, st : ${listStaff}">
+					<tr th:style="@{|background-color:${st.odd?'pink':'cyan'}|}">
+						<td
+						th:text="${#strings.capitalizeWords(staff.getFullname())}"></td>
+						<td th:text="${st.index}"></td>
+						<td th:text="${st.count}"></td>
+						<td th:text="${st.first}"></td>
+						<td th:text="${st.last}"></td>
+						<td th:text="${st.odd}"></td>
+						<td th:text="${st.even}"></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<h3>Fill to SelectBox</h3>
+		<select name="cbo">
+			<th:block th:each="staff: ${listStaff}">
+				<option th:value="${staff.getId()}" th:text="${staff.getFullname()}"></option>
+			</th:block>
+		</select>
+		<h3>Create Radio Button Group</h3>
+		<th:block th:each="staff: ${listStaff}">
+			<label>
+				<input type="radio" name="rdo" th:value="${staff.getId()}">
+				<th:block th:text="${staff.getFullname()}"></th:block>
+			</label>
+		<br>
+		</th:block>
+
+    </body>
+</html>
