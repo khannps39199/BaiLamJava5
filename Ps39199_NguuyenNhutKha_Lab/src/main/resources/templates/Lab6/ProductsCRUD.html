@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Quản lý Sản phẩm</title>
+    
+</head>
+<body>
+
+    <div class="container">
+		<form action="/products/search" method="get" class="row g-3">
+						
+									    <div class="col-md-3">
+									        <input type="text" step="0.01" class="form-control" id="maxPrice" name="keywork"
+									               th:value="${keywork}" placeholder="Nhập keywork">
+									    </div>
+									    <!-- Nút Lọc -->
+									    <div class="col-md-3 align-self-end">
+									        <button type="submit" class="btn btn-primary w-100">Lọc</button>
+									    </div>
+		</form>
+		<form action="/products/searchByJPA" method="get" class="row g-3">
+						
+									    <div class="col-md-3">
+									        <input type="text" step="0.01" class="form-control" id="maxPrice" name="keywork"
+									               th:value="${keywork}" placeholder="Nhập keywork">
+									    </div>
+									    <!-- Nút Lọc -->
+									    <div class="col-md-3 align-self-end">
+									        <button type="submit" class="btn btn-primary w-100">Lọc ByJPA</button>
+									    </div>
+									</form>
+        
+		<form action="/products/filter" method="get" class="row g-3">
+					    <!-- Ô chọn loại hàng -->
+					    <div class="col-md-3">
+					        <select class="form-select" name="categoryID" id="categoryID">
+					            <option value="" selected>Chọn loại hàng</option>
+								<option th:each="cat : ${categories}"
+								        th:value="${cat.id}"
+								        th:text="${cat.name}">
+								</option>
+					        </select>
+					    </div>
+					    <!-- Ô nhập giá tối thiểu -->
+					    <div class="col-md-3">	
+					        <input type="number" step="0.01" class="form-control" id="minPrice" name="minPrice"
+					               th:value="${minPrice}" placeholder="Nhập Giá Tối Thiểu">
+					    </div>
+					    <!-- Ô nhập giá tối đa -->
+					    <div class="col-md-3">
+					        <input type="number" step="0.01" class="form-control" id="maxPrice" name="maxPrice"
+					               th:value="${maxPrice}" placeholder="Nhập Giá Tối Đa">
+					    </div>
+					    <!-- Nút Lọc -->
+					    <div class="col-md-3 align-self-end">
+					        <button type="submit" class="btn btn-primary w-100">Lọc</button>
+					    </div>
+					</form>
+					<form action="/products/filterByJPA" method="get" class="row g-3">
+										    
+										    <div class="col-md-3">
+										        <select class="form-select" name="categoryID" id="categoryID">
+										            <option value="" selected>Chọn loại hàng</option>
+													<option th:each="cat : ${categories}"
+													        th:value="${cat.id}"
+													        th:text="${cat.name}">
+													</option>
+										        </select>
+										    </div>
+										    <!-- Ô nhập giá tối thiểu -->
+										    <div class="col-md-3">	
+										        <input type="number" step="0.01" class="form-control" id="minPrice" name="minPrice"
+										               th:value="${minPrice}" placeholder="Nhập Giá Tối Thiểu">
+										    </div>
+										    <!-- Ô nhập giá tối đa -->
+										    <div class="col-md-3">
+										        <input type="number" step="0.01" class="form-control" id="maxPrice" name="maxPrice"
+										               th:value="${maxPrice}" placeholder="Nhập Giá Tối Đa">
+										    </div>
+										    <!-- Nút Lọc -->
+										    <div class="col-md-3 align-self-end">
+										        <button type="submit" class="btn btn-primary w-100">Lọc ByJPA</button>
+										    </div>
+										</form>
+        <div class="card" style="width: 70%;">
+            <h3>Danh sách Sản phẩm</h3>
+
+            <div>
+                <a th:href="@{/admin/product/sort(field='productID')}" class="btn btn-primary">ID</a>
+                <a th:href="@{/admin/product/sort(field='name')}" class="btn btn-primary">Tên</a>
+                <a th:href="@{/admin/product/sort(field='price')}" class="btn btn-primary">Giá</a>
+                <a th:href="@{/admin/product/sort(field='createdAt')}" class="btn btn-primary">Ngày tạo</a>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+						<th>Id</th>
+						<th>Tên</th>
+                        <th>Mô tả</th>
+                        <th>Giá</th>
+                        <th>Giảm giá</th>
+                        <th>Số lượng</th>
+                        <th>Danh mục</th>
+                        <th>Hình ảnh</th>
+                        <th>Ngày tạo</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product, iterStat : ${products}">
+                        <td th:text="${iterStat.index + 1}"></td>
+						<td th:text="${product.productID}"></td>
+						<td th:text="${product.name}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.discount} + '%'"></td>
+                        <td th:text="${product.stock}"></td>
+                        <td th:text="${product.category.name}"></td>
+                        <td>
+                            <img th:src="@{'/Hinh/' + ${product.image}}" alt="Hình ảnh" width="50">
+                        </td>
+                        <td th:text="${product.createdAt}"></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+			<nav aria-label="Page navigation">
+			           <ul class="pagination justify-content-center mt-4">
+						<li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+						    <a class="page-link" 
+						       th:href="@{${url}(categoryID=${param.categoryID}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${currentPage > 0 ? currentPage - 1 : 0}),field=${sortBy}}">
+						       Previous
+						    </a>
+						</li>
+
+						<li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+						    th:classappend="${i == currentPage} ? 'active'">
+							<a class="page-link"
+							   th:href="@{${url}(categoryID=${param.categoryID}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${i},field=${sortBy})}"
+							   th:text="${i + 1}"></a>
+						</li>
+
+						<li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+						    <a class="page-link" 
+						       th:href="@{${url}(categoryID=${param.categoryID}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${currentPage + 1},field=${sortBy})}">
+						       Next
+						    </a>
+						</li>
+			           </ul>
+			       </nav>
+            <!-- Phân trang -->
+            <div class="pagination">
+                <span>Trang <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span></span>
+                <div>
+                    <a th:if="${hasPrevious}" th:href="@{/admin/getproducts(page=${currentPage - 1}, size=${pageSize})}" class="btn btn-secondary">Trước</a>
+                    <a th:if="${hasNext}" th:href="@{/admin/getproducts(page=${currentPage + 1}, size=${pageSize})}" class="btn btn-secondary">Sau</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

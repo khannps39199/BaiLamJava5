@@ -23,10 +23,10 @@ public class Product {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Product(String name, Double price) {
-		super();
-		this.name = name;
-		this.price = price;
-	}
+//	public Product(String name, Double price) {
+//		super();
+//		this.name = name;
+//		this.price = price;
+//	}
 	
 }

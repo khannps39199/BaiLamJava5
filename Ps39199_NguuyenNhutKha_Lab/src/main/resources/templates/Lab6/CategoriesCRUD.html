@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Danh mục</title>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h3>Thêm/Sửa Danh mục</h3>
+                    <form th:action="@{/categories/save}" th:object="${category}" method="post">
+                        <input type="hidden" th:field="*{id}">
+                        <label>Tên danh mục</label>
+                        <input type="text" th:field="*{name}" required>
+                        <label>Mô tả</label>
+                        <textarea th:field="*{description}" required></textarea>
+                        <button type="submit">Lưu</button>
+                        <a href="redirect:/categories" class="btn-warning">Tạo Mới</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <h3>Danh sách Danh mục</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên</th>
+                                    <th>Mô tả</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="category, iterStat : ${categories}">
+                                    <td th:text="${iterStat.index + 1}"></td>
+                                    <td th:text="${category.name}"></td>
+                                    <td th:text="${category.description}"></td>
+                                    <td>
+                                        <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="btn-warning">Sửa</a>
+                                        <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?');">Xóa</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 - Quản lý Danh mục
+    </footer>
+</body>
+</html>

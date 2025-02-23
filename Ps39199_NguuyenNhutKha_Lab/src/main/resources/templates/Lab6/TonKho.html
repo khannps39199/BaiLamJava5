@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Danh mục</title>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            
+            <div class="col">
+                <div class="card">
+                    <h3>Danh sách Danh mục</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên</th>
+                                    <th>Tong</th>
+                                    <th>SoLuong</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item, iterStat : ${tonkho}">
+                                    <td th:text="${iterStat.index + 1}"></td>
+                                    <td th:text="${item.getGroup().name}"></td>
+									<td th:text="${item.getSum()}"></td>
+									<td th:text="${item.getCount()}"></td>
+                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 - Quản lý Danh mục
+    </footer>
+</body>
+</html>
